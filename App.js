@@ -1,21 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, Text, View, ScrollView } from 'react-native';
+import styles from "./Styles";
+import Header from "./components/Header";
+import Home from "./components/Home";
+import Add from "./components/Add";
+import Edit from "./components/Edit";
+import { NativeRouter, Route, Link } from "react-router-native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>My first react native App!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeRouter>
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.app}>
+        <Header />
+        <SafeAreaView style={styles.container}>
+          <ScrollView>
+            <Route exact path="/" render={() => (
+              <Home />
+            )} />
+            <Route path="/add" component={Add} />
+            <Route path="/edit" component={Edit} />
+          </ScrollView>
+        </SafeAreaView>
+        <StatusBar style="light" />
+      </KeyboardAvoidingView>
+    </NativeRouter>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
